@@ -3,7 +3,7 @@ import CartChild from "./CartChild";
 
 const Cart = ({productsInCart, products,total,onClick, handlePay}) => (
     <div>
-        <h2>Tu compra</h2>
+        <h2 className="subtitle is-3">Tu compra</h2>
         <ul>
             {productsInCart.map((index,i) => <CartChild onClick={onClick} index={index} key={i} products={products}/>)}
         </ul>

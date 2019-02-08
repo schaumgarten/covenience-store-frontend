@@ -53,38 +53,38 @@ class Store extends Component {
         products[index].quantity = quant;
        this.setState({products, productsInCart});
        this.calculateTotal();
-   };
+    };
 
-   calculateTotal = () => {
-    let total = 0;
-    const {productsInCart, products} = this.state;
-    productsInCart.forEach(i => {
-        total += (products[i].price * products[i].quantity)
-    });
-    this.setState({total: total});
-};
+    calculateTotal = () => {
+        let total = 0;
+        const {productsInCart, products} = this.state;
+        productsInCart.forEach(i => {
+            total += (products[i].price * products[i].quantity)
+        });
+        this.setState({total: total});
+    };
 
-deleteToday = (e ,index) => {
-    const {productsInCart,products} = this.state;
-    products[index].quantity = 0;
-    for (let i = 0; i<productsInCart.length; i++){
-        if(productsInCart[i] === index){
-            productsInCart.splice(i,1);
+    deleteToday = (e ,index) => {
+        const {productsInCart,products} = this.state;
+        products[index].quantity = 0;
+        for (let i = 0; i<productsInCart.length; i++){
+            if(productsInCart[i] === index){
+                productsInCart.splice(i,1);
+            }
         }
+        this.setState({productsInCart, products});
+        this.calculateTotal();
+    };
+
+    handlePayButton = () => {
+
     }
-    this.setState({productsInCart, products});
-    this.calculateTotal();
-};
-
-handlePayButton = () => {
-
-}
 
     render (){
         return (
             <div>
                 <header>
-                    <h1>{this.state.store.name}</h1>
+                    <h1 className="title is-2">{this.state.store.name}</h1>
                 </header>
                 <SearchBar onchange={this.handleSearchBar}/>
                 <Cart productsInCart={this.state.productsInCart} products={this.state.products} total={this.state.total} onClick={this.deleteToday} handlePay={this.handlePayButton}/> 

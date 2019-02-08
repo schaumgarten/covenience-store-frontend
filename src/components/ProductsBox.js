@@ -3,7 +3,7 @@ import React from 'react';
 
 
 const ProductsBox = (props) => (
-    <div className="column">
+    <div className="column productsBox">
         <div className="box">
             <article className="media">
                 <div className="media-content">
@@ -16,7 +16,7 @@ const ProductsBox = (props) => (
                 </div>
                 <div className="media-right">
                     <form id="foodBoxForm" onSubmit={e => props.onSubmit(e,props.product.name)}>
-                    <div className="field has-addons">
+                    <div className="field has-addons productQuantity is-right">
 
                             <div className="control">
                                 <input

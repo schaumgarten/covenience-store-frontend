@@ -30,3 +30,12 @@
     transform: rotate(360deg);
   }
 }
+
+.productsBox {
+  width: 40%;
+}
+
+.productQuantity {
+  width: 100px;
+ 
+}
