@@ -39,3 +39,10 @@
   width: 100px;
  
 }
+
+.centered {
+  margin: 200px auto;
+  background-color: light-blue;
+  color: grey;
+  width: 40%;
+}

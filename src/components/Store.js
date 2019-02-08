@@ -3,6 +3,7 @@ import axios from 'axios'
 import SearchBar from './SearchBar'
 import ProductsBox from './ProductsBox'
 import Cart from './Cart'
+import Modal from './Modal'
 
 class Store extends Component {
     constructor(props){
@@ -12,7 +13,9 @@ class Store extends Component {
             products: [],
             filterdProducts: [],
             productsInCart: [],
-            total: 0
+            total: 0,
+            paymentError: '',
+            user: JSON.parse(localStorage.getItem('user'))
         }
     }
 
@@ -64,6 +67,10 @@ class Store extends Component {
         this.setState({total: total});
     };
 
+    handleCloseModal = () => {
+        document.querySelector('.modal').classList.remove('is-active')
+    };
+
     deleteToday = (e ,index) => {
         const {productsInCart,products} = this.state;
         products[index].quantity = 0;
@@ -76,8 +83,32 @@ class Store extends Component {
         this.calculateTotal();
     };
 
-    handlePayButton = () => {
 
+    handlePayButton = () => {
+        document.querySelector('.modal').classList.add('is-active')
+    }
+
+    handlePayment = (e) => {
+        e.preventDefault();
+        if (this.state.user) {
+            console.log("vamos a crear una venta")
+        } else {
+            const email = e.target.email.value;
+        const password = e.target.password.value;   
+        axios.post('http://localhost:3000/api/user/login',{email, password})
+            .then(res => {
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                this.setState({user: res.data.user});
+                console.log('logueado')
+            })
+        }
+        
+    } 
+
+    handleChangeAccount = () => {
+        localStorage.clear();
+        this.setState({user:null});
     }
 
     render (){
@@ -89,7 +120,7 @@ class Store extends Component {
                 <SearchBar onchange={this.handleSearchBar}/>
                 <Cart productsInCart={this.state.productsInCart} products={this.state.products} total={this.state.total} onClick={this.deleteToday} handlePay={this.handlePayButton}/> 
                 {this.state.filterdProducts.map((product, index) => <ProductsBox key={index} product={product} onSubmit={this.handleAddCart} />)}
-                {/* <Modal closeModal={this.handleCloseModal} onSubmit={this.handleAddFood}/> */}
+                <Modal handleChangeAccount={this.handleChangeAccount} user={this.state.user} closeModal={this.handleCloseModal} total={this.state.total} onSubmit={this.handlePayment}/>
                 
             </div>
         );
