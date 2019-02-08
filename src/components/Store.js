@@ -14,7 +14,6 @@ class Store extends Component {
             filterdProducts: [],
             productsInCart: [],
             total: 0,
-            paymentError: '',
             user: JSON.parse(localStorage.getItem('user'))
         }
     }
@@ -47,7 +46,6 @@ class Store extends Component {
     handleAddCart = (e, productName) => {
         e.preventDefault();
         let quant = parseInt(e.target.quantity.value);
-        console.log("=====>",quant, typeof(quant))
         let {products, productsInCart} = this.state;
         let index = products.findIndex(f => f.name === productName);
         if (productsInCart.indexOf(index) === -1 && quant > 0){
@@ -91,7 +89,7 @@ class Store extends Component {
     handlePayment = (e) => {
         e.preventDefault();
         if (this.state.user) {
-            console.log("vamos a crear una venta")
+            this.createSale();
         } else {
             const email = e.target.email.value;
         const password = e.target.password.value;   
@@ -105,6 +103,26 @@ class Store extends Component {
         }
         
     } 
+
+    createSale = () => {
+        this.state.productsInCart.forEach(index => {
+            const product = this.state.products[index];
+            const sale = {
+                _store: this.props.match.params.id,
+                _client: this.state.user._id,
+                _product: product._id,
+                quantity: product.quantity
+            }
+            axios.post('http://localhost:3000/api/sale/new',sale)
+                .then(()=> {
+                    this.handleCloseModal();
+                    this.setState({productsInCart: [], total: 0})
+                })
+                .catch(err => {
+                    alert("Error:", err)
+                })
+        })
+    }
 
     handleChangeAccount = () => {
         localStorage.clear();

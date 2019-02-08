@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
+import Sales from './Sales';
 
 class StoreAdmin extends Component {
     constructor(props){
@@ -19,7 +20,12 @@ class StoreAdmin extends Component {
 
     componentDidMount(){
         this.getProducts();
-        console.log(this.state.store)
+        axios.get(`http://localhost:3000/api/sale/store/${this.state.store._id}`)
+            .then(res => {
+                this.setState({sales: res.data.sales})
+                console.log(this.state.sales)
+            })
+       
     }
     
 
@@ -70,7 +76,6 @@ class StoreAdmin extends Component {
         axios.get(`http://localhost:3000/api/product/${_store}`)
             .then(res => {
                 this.setState({products: res.data.products})
-                console.log(this.state.products)
             })
             .catch(err => {
                 console.log(err)
@@ -120,6 +125,7 @@ class StoreAdmin extends Component {
                 </section>
                 <section>
                     <h1>Ventas</h1>
+                    <Sales sales={this.state.sales}/>
                 </section>            
                 
             </div>

@@ -35,34 +35,23 @@ class Login extends Component {
     render (){
         return (
             <div>
-                <h1>Login</h1>
-                
-                   
-                        <form  id="reg-form" onSubmit={this.handleSubmit}>
-
-                            <div className="row">
-                                <div className="input-field col s12 m9">
-                                    <input id="email" name="email" type="email" className="validate" minLength="6" onChange={this.handleChange} required/>
-                                    <label htmlFor="email">Email</label>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s12 m9">
-                                    <input id="password" name="password" type="password" onChange={this.handleChange} required/>
-                                    <label htmlFor="password">Password</label>
-                                </div>
-                            </div>
-
-                            <div className="input-field col s12">
-                                <button className="btn btn-large btn-register blue-background waves-effect waves-light center"
-                                        type="submit" name="action">Login
-
-                                </button>
-                            </div>
-
-                        </form>
-                   
-                
+                <h1 className="title">Login</h1>
+                <form  onSubmit={this.handleSubmit}>
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <br/>
+                        <input id="email" name="email" type="email" onChange={this.handleChange} required/>
+                        
+                    </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <br/>
+                        <input id="password" name="password" type="password" onChange={this.handleChange} required/>
+                        
+                    </div>
+                        <button className="button" type="submit" name="action">Login </button>    
+                        
+                </form>        
             </div>
         )
     }
